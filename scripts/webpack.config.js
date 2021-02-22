@@ -34,6 +34,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({'process.env': JSON.stringify(envObj)}),
     new webpack.EnvironmentPlugin(envObj),
-  ]
+  ],
+
+  stats: 'errors-only',
+
 };
 

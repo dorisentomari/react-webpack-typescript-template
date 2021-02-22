@@ -6,6 +6,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const PackingGenerateFilePlugin = require('./plugins/PackingGenerateFilePlugin');
+
 const baseConfig = require('./webpack.config');
 const pkg = require('../package.json');
 
@@ -16,7 +18,7 @@ module.exports = merge(baseConfig, {
 
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'js/main-[name]-[contenthash:8].js'
+    filename: 'js/[contenthash:8].js'
   },
 
   devServer: {
@@ -80,6 +82,7 @@ module.exports = merge(baseConfig, {
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
     new webpack.PrefetchPlugin('react'),
+    new PackingGenerateFilePlugin()
   ],
 
   optimization: {
@@ -105,6 +108,8 @@ module.exports = merge(baseConfig, {
             ascii_only: true,
           },
         },
+        parallel: true,
+        extractComments: false,
       }),
     ],
     splitChunks: {
@@ -115,5 +120,4 @@ module.exports = merge(baseConfig, {
       name: entrypoint => `runtime-${entrypoint.name}`,
     },
   }
-
 });

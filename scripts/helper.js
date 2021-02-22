@@ -35,7 +35,24 @@ function getProcessEnv() {
   return result;
 }
 
+function processSize(size) {
+  let idx = 0;
+  let sizeUnit = ['Byte', 'Kb', 'Mb', 'Gb'];
+  while (size > 1024) {
+    size = size / 1024;
+    idx++;
+  }
+
+  return {
+    size: parseFloat(Number(size).toFixed(2)),
+    unit: sizeUnit[idx],
+  };
+}
+
+
+
 module.exports = {
   getProcessEnv,
+  processSize,
 };
 
