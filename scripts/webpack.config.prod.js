@@ -16,7 +16,7 @@ module.exports = merge(baseConfig, {
 
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'js/main-[chunkhash].js'
+    filename: 'js/main-[name]-[contenthash:8].js'
   },
 
   devServer: {
@@ -76,10 +76,8 @@ module.exports = merge(baseConfig, {
       },
     }),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: 'static/css/[name].[contenthash:8].css',
-      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
     new webpack.PrefetchPlugin('react'),
   ],
