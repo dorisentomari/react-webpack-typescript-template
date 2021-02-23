@@ -1,17 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const dotenv = require('dotenv');
 
 const NODE_ENV = process.env.NODE_ENV;
-const REACT_APP_REGEXP = /^REACT_APP_/i;
-
-if (!NODE_ENV) {
-  throw new Error('必须指定 NODE_ENV');
-}
 
 const rootPath = path.resolve(__dirname, '..');
 
 function getProcessEnv() {
+  const REACT_APP_REGEXP = /^REACT_APP_/i;
+
+  if (!NODE_ENV) {
+    throw new Error('必须指定 NODE_ENV');
+  }
+
   const result = {};
 
   const dotenvFiles = [
@@ -31,7 +33,9 @@ function getProcessEnv() {
       });
     }
   });
+
   result.NODE_ENV = NODE_ENV;
+
   return result;
 }
 
@@ -49,10 +53,23 @@ function processSize(size) {
   };
 }
 
-
+function getLocalIP() {
+  const interfaces = os.networkInterfaces();
+  for (let devName in interfaces) {
+    if (interfaces.hasOwnProperty(devName)) {
+      let iface = interfaces[devName];
+      for (let i = 0; i < iface.length; i++) {
+        let alias = iface[i];
+        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+          return alias.address;
+        }
+      }
+    }
+  }
+}
 
 module.exports = {
   getProcessEnv,
   processSize,
+  getLocalIP,
 };
-

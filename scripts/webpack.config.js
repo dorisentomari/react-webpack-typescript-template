@@ -36,7 +36,7 @@ module.exports = {
     new webpack.EnvironmentPlugin(envObj),
   ],
 
-  stats: 'errors-only',
+  stats: 'minimal',
 
 };
 

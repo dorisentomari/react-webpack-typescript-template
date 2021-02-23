@@ -1,26 +1,36 @@
 const path = require('path');
+const webpack = require('webpack');
 const {merge} = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+const chalk = require('chalk');
 
 const baseConfig = require('./webpack.config');
 const pkg = require('../package.json');
+const helper = require('./helper');
+
+const defaultConfig = {
+  port: process.env.REACT_APP_PORT || 18000
+};
 
 module.exports = merge(baseConfig, {
   mode: 'development',
+
   devtool: 'source-map',
+
   devServer: {
-    port: 18000,
+    port: defaultConfig.port,
     hot: true,
     compress: true,
-    transportMode: 'ws',
+    clientLogLevel: 'silent',
     contentBase: path.resolve(__dirname, '../public'),
     historyApiFallback: {
       index: path.resolve(__dirname, '../public/index.html'),
       disableDotRule: true,
     },
-    before(app, server) {
-
+    after(app, server) {
+      console.log(chalk.green(`❤  ${pkg.name} server startup successfully, please visit...`));
+      console.log(chalk.green(`❤  http://localhost:${defaultConfig.port}`));
+      console.log(chalk.green(`❤  http://${helper.getLocalIP()}:${defaultConfig.port}`));
     }
   },
 

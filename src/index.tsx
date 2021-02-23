@@ -9,13 +9,7 @@ import history from '@/store/history';
 import store from '@/store';
 import '@/assets/style/global.less';
 
-function Home() {
-	return (
-		<div>
-      home page
-		</div>
-	);
-}
+const Home = React.lazy(() => import('@/pages/home/index'));
 
 ReactDOM.render(
 	<Provider store={store}>

@@ -7,7 +7,7 @@ class PackingGenerateFilePlugin {
       let contentList = [];
       // statObj.size() 的单位是 bit
       Object.entries(assets).forEach(([filename, statObj]) => {
-        const { size, unit } = helper.processSize(statObj.size())
+        const { size, unit } = helper.processSize(statObj.size());
         contentList.push({filename, size: `${size}${unit}` });
       });
       console.table(contentList);
