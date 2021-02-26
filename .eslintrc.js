@@ -1,7 +1,8 @@
 module.exports = {
 	'env': {
 		'browser': true,
-		'es2021': true
+		'es2021': true,
+		'node': true
 	},
 	'extends': [
 		'eslint:recommended',
@@ -28,5 +29,6 @@ module.exports = {
 		'no-mixed-spaces-and-tabs': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
+		'@typescript-eslint/no-var-requires': 'off',
 	}
 };
