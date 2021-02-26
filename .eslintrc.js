@@ -27,5 +27,6 @@ module.exports = {
 		'semi': ['error', 'always'],
 		'no-mixed-spaces-and-tabs': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
 	}
 };

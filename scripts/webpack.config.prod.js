@@ -10,6 +10,7 @@ const PackingGenerateFilePlugin = require('./plugins/PackingGenerateFilePlugin')
 
 const baseConfig = require('./webpack.config');
 const pkg = require('../package.json');
+const paths = require('./paths');
 
 module.exports = merge(baseConfig, {
   mode: 'development',
@@ -17,7 +18,7 @@ module.exports = merge(baseConfig, {
   devtool: false,
 
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: paths.appBuild,
     filename: 'js/[contenthash:8].js'
   },
 
@@ -62,7 +63,7 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html'),
+      template: paths.appHtml,
       title: pkg.name,
       minify: {
         removeComments: true,
@@ -82,7 +83,8 @@ module.exports = merge(baseConfig, {
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
     }),
     new webpack.PrefetchPlugin('react'),
-    new PackingGenerateFilePlugin()
+    new PackingGenerateFilePlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
 
   optimization: {

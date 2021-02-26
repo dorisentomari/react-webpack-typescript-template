@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const baseConfig = require('./webpack.config');
 const pkg = require('../package.json');
 const helper = require('./helper');
+const paths = require('./paths');
 
 const defaultConfig = {
   port: process.env.REACT_APP_PORT || 18000
@@ -18,13 +19,15 @@ module.exports = merge(baseConfig, {
   devtool: 'source-map',
 
   devServer: {
-    port: defaultConfig.port,
-    hot: true,
+    disableHostCheck: true,
     compress: true,
-    clientLogLevel: 'silent',
-    contentBase: path.resolve(__dirname, '../public'),
+    contentBase: paths.appPublic,
+    watchContentBase: true,
+    hot: true,
+    transportMode: 'ws',
+    injectClient: false,
+    port: defaultConfig.port,
     historyApiFallback: {
-      index: path.resolve(__dirname, '../public/index.html'),
       disableDotRule: true,
     },
     after(app, server) {
@@ -68,7 +71,8 @@ module.exports = merge(baseConfig, {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
       title: pkg.name,
-    })
+    }),
+
   ]
 
 });

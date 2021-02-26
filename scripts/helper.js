@@ -1,11 +1,11 @@
 const fs = require('fs');
-const path = require('path');
 const os = require('os');
 const dotenv = require('dotenv');
+const paths = require('./paths');
+
+const pkg = require(paths.appPackageJson);
 
 const NODE_ENV = process.env.NODE_ENV;
-
-const rootPath = path.resolve(__dirname, '..');
 
 function getProcessEnv() {
   const REACT_APP_REGEXP = /^REACT_APP_/i;
@@ -17,10 +17,10 @@ function getProcessEnv() {
   const result = {};
 
   const dotenvFiles = [
-    `${rootPath}/.env`,
-    `${rootPath}/.env.local`,
-    `${rootPath}/.env.${NODE_ENV}.local`,
-    `${rootPath}/.env.${NODE_ENV}`,
+    `${paths.appPath}/.env`,
+    `${paths.appPath}/.env.local`,
+    `${paths.appPath}/.env.${NODE_ENV}.local`,
+    `${paths.appPath}/.env.${NODE_ENV}`,
   ].filter(Boolean);
 
   dotenvFiles.forEach(dotenvFile => {
@@ -35,6 +35,7 @@ function getProcessEnv() {
   });
 
   result.NODE_ENV = NODE_ENV;
+  result.packageName = pkg.name;
 
   return result;
 }
