@@ -5,7 +5,7 @@ import {RootState} from '@/store/reducers';
 import {HomeState} from '@/store/reducers/home';
 import {HomeProps} from '@/pages/home/types';
 import homeActions from '@/store/actions/home';
-import './index.less';
+import styles from './index.module.less';
 
 import avatar from '@/assets/images/avatar.jpg';
 
@@ -13,7 +13,7 @@ function Home(props: HomeProps) {
 	return (
 		<div>
 			<h3>Home Page</h3>
-			<p><img className="avatar" src={avatar} alt=""/></p>
+			<p><img className={styles.avatar} src={avatar} alt="avatar"/></p>
 			<p>
 				<b>{props.counter}</b>
 				<button onClick={() => props.setCounter(props.counter + 1)}>add counter</button>

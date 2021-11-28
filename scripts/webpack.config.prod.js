@@ -13,53 +13,12 @@ const pkg = require('../package.json');
 const paths = require('./paths');
 
 module.exports = merge(baseConfig, {
-  mode: 'development',
-
+  mode: 'production',
   devtool: false,
-
   output: {
     path: paths.appBuild,
-    filename: 'js/[contenthash:8].js'
+    filename: 'js/[name].[contenthash:8].js',
   },
-
-  devServer: {
-    port: 18000,
-    hot: true,
-    contentBase: path.resolve(__dirname, '../public'),
-    historyApiFallback: {
-      index: path.resolve(__dirname, '../public/index.html')
-    }
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {loader: 'css-loader'}
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {importLoaders: 2}
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {plugins: ['autoprefixer']}
-            }
-          },
-          'less-loader',
-        ]
-      },
-    ]
-  },
-
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -79,12 +38,11 @@ module.exports = merge(baseConfig, {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:8].css',
-      chunkFilename: 'css/[name].[contenthash:8].chunk.css',
+      filename: 'style/[contenthash:8].css',
+      chunkFilename: 'style/[contenthash:8].chunk.css',
     }),
     new webpack.PrefetchPlugin('react'),
     new PackingGenerateFilePlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
 
   optimization: {

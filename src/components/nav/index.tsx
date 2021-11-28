@@ -1,14 +1,14 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import './index.less';
+import styles from './index.module.less';
 
 function Nav() {
 	return (
-		<div>
-			<ul>
-				<li><NavLink to="/">home</NavLink></li>
-				<li><NavLink to="/login">login</NavLink></li>
+		<div className={styles.navWrapper}>
+			<ul className={styles.list}>
+				<li className={styles.listItem}><NavLink to="/">home</NavLink></li>
+				<li className={styles.listItem}><NavLink to="/login">login</NavLink></li>
 			</ul>
 		</div>
 	);

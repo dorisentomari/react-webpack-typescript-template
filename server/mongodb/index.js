@@ -8,13 +8,12 @@ function initSchemas() {
 	glob.sync(path.resolve(__dirname, './schemas/', '**/*.schema.js')).forEach(require);
 }
 
-async function connectMongoDB() {
+async function connectMongoDB(uri, callback) {
 	mongoose.Promise = bluebird.Promise;
 
 	initSchemas();
 
 	const options = {
-		poolSize: 10,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	};
@@ -22,8 +21,9 @@ async function connectMongoDB() {
 	mongoose.set('debug', true);
 
 	try {
-		await mongoose.connect('mongodb://localhost:27017/react_webpack_template_server', options);
+		await mongoose.connect(uri || 'mongodb://localhost:27017/react_webpack_template_server', options);
 		console.log(chalk.green('MongoDB database connect success...'));
+		callback && callback();
 	} catch (error) {
 		console.error('MongoDB database connect failed!!!');
 		console.error(error);

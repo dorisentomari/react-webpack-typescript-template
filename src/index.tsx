@@ -1,31 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Routes, BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'connected-react-router';
-import {Spin} from 'antd';
 
-import history from '@/store/history';
+import Loading from '@/components/Loading';
+
 import store from '@/store';
-import '@/assets/style/global.less';
-import './index.less';
+import './global.less';
+import styles from './index.module.less';
 
 const Nav = React.lazy(() => import('@/components/nav/index'));
 const Home = React.lazy(() => import('@/pages/home/index'));
 const Login = React.lazy(() => import('@/pages/login/index'));
 
-ReactDOM.render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<React.Suspense fallback={<Spin/>}>
-				<div className="container">
-					<Nav/>
-					<Switch>
-						<Route path="/" exact={true} component={Home} />
-						<Route path="/login" exact={true} component={Login} />
-						<Redirect to="/"/>
-					</Switch>
-				</div>
+function App() {
+	return (
+		<Provider store={store}>
+			<React.Suspense fallback={<Loading/>}>
+				<BrowserRouter>
+					<div className={styles.container}>
+						<Nav/>
+						<Routes>
+							<Route path="/" element={<Home/>}/>
+							<Route path="/login" element={<Login/>}/>
+							<Route path="*" element={<Home/>}/>
+						</Routes>
+					</div>
+				</BrowserRouter>
 			</React.Suspense>
-		</ConnectedRouter>
-	</Provider>, document.getElementById('root'));
+		</Provider>
+	);
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));

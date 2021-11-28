@@ -41,6 +41,12 @@ module.exports = {
   appPath: resolveApp('.'),
   // 项目打包的目录
   appBuild: resolveApp('build'),
+  // 打包后的 file 目录
+  appBuildAssets: resolveApp('build/assets'),
+  // 打包后的 style 目录
+  appBuildStyle: resolveApp('build/style'),
+  // 打包后的 js 目录
+  appBuildJs: resolveApp('build/js'),
   // public 资源目录
   appPublic: resolveApp('public'),
   // public 目录下的 index.html 文件

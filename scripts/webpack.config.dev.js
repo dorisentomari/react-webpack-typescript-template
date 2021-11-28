@@ -15,64 +15,20 @@ const defaultConfig = {
 
 module.exports = merge(baseConfig, {
   mode: 'development',
-
   devtool: 'source-map',
-
   devServer: {
-    disableHostCheck: true,
     compress: true,
-    contentBase: paths.appPublic,
-    watchContentBase: true,
-    hot: true,
-    transportMode: 'ws',
-    injectClient: false,
     port: defaultConfig.port,
     historyApiFallback: {
       disableDotRule: true,
     },
-    after(app, server) {
-      console.log(chalk.green(`❤  ${pkg.name} server startup successfully, please visit...`));
-      console.log(chalk.green(`❤  http://localhost:${defaultConfig.port}`));
-      console.log(chalk.green(`❤  http://${helper.getLocalIP()}:${defaultConfig.port}`));
-    }
+    // onAfterSetupMiddleware(devServer) {},
   },
-
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {loader: 'css-loader'}
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {importLoaders: 2}
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {plugins: ['autoprefixer']}
-            }
-          },
-          'less-loader',
-        ]
-      },
-    ]
-  },
-
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html'),
+      template: paths.appHtml,
       title: pkg.name,
     }),
-
   ]
-
 });

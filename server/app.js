@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const history = require('connect-history-api-fallback');
 
 const connectMongoDB = require('./mongodb');
 const initRoute = require('./routes');
@@ -25,10 +26,26 @@ app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(morgan('combined'));
 
 (async function () {
-	await connectMongoDB();
+	try {
+		await connectMongoDB();
+	} catch (err) {
+		console.log('连接数据库失败');
+		console.log(err);
+	}
 })();
 
 initRoute(app);
+
+app.use(history({
+	rewrites: [
+		{ from: /^\/abc$/, to: '/' }
+	]
+}));
+
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('/', function (req, res) {
+	res.sendFile('../build/index.html');
+});
 
 app.listen(PORT, err => {
 	if (err) {
